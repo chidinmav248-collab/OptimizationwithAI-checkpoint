@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Card</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eef4ff, #f7f9fc);
+      color: #1f2937;
+    }
+
+    .pricing-grid {
+      width: min(100%, 760px);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .pricing {
+      width: min(100%, 340px);
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+      padding: 28px 24px;
+      text-align: left;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .price {
+      margin: 0 0 20px;
+      font-size: 32px;
+      font-weight: 700;
+      color: #16a34a;
+    }
+
+    .price span {
+      font-size: 16px;
+      font-weight: 400;
+      color: #6b7280;
+    }
+
+    .features {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 24px;
+    }
+
+    .features li {
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .features li:last-child {
+      border-bottom: none;
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    function createPricingCard(plan) {
+      const features = plan.features
+        .map(function(feature) {
+          return "<li>" + feature + "</li>";
+        })
+        .join("");
+
+      return `
+        <article class="pricing">
+          <h2 class="title">${plan.title}</h2>
+          <p class="subtitle">${plan.subtitle}</p>
+          <p class="price">$${plan.price} <span>/ ${plan.period}</span></p>
+          <ul class="features">${features}</ul>
+          <button class="btn" type="button" data-plan="${plan.title}">${plan.buttonText}</button>
+        </article>
+      `;
+    }
+
+    const plans = [
+      {
+        title: "Basic Plan",
+        subtitle: "Perfect for individuals getting started.",
+        price: "9.99",
+        period: "month",
+        features: ["1 GB Storage", "Basic Support", "All Core Features"],
+        buttonText: "Start Trial"
+      },
+      {
+        title: "Pro Plan",
+        subtitle: "More power for growing teams.",
+        price: "19.99",
+        period: "month",
+        features: ["50 GB Storage", "Priority Support", "Advanced Analytics"],
+        buttonText: "Choose Pro"
+      }
+    ];
+
+    document.getElementById("app").innerHTML =
+      '<section class="pricing-grid">' +
+      plans.map(createPricingCard).join("") +
+      "</section>";
+
+    document.querySelectorAll(".btn").forEach(function(button) {
+      button.addEventListener("click", function() {
+        const planName = button.getAttribute("data-plan");
+        alert("You selected the " + planName + ". Signup flow goes here.");
+      });
+    });
+  </script>
+</body>
+</html>
